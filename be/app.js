@@ -1,23 +1,27 @@
 import express from "express";
+import multer from "multer";
 import { NotFoundError } from "./expressError.js";
 import { add } from "./add.js";
-import {
-  S3Client,
-  PutObjectCommand,
-  CreateBucketCommand,
-  DeleteObjectCommand,
-  DeleteBucketCommand,
-  paginateListObjectsV2,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
+
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
+
+
 /** Sample route */
 app.get("/", function (req, res) {
 
+});
+
+//NOTE: 'image' argument for middleware function must match name of input field on HTML form
+/** Upload an image */
+app.post("/add", upload.single('image'), async function (req, res) {
+  console.log("req.body", req.body);
+  console.log("req.file", req.file);
 });
 
 /** Handle 404 errors -- this matches everything */
