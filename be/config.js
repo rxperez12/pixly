@@ -5,33 +5,35 @@ import dotenv from "dotenv";
 import "colors";
 
 dotenv.config();
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const BUCKET_REGION = process.env.BUCKET_REGION;
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
 
-const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
-const PORT = +process.env.PORT || 3001;
 
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
-    ? "postgresql:///jobly_test"
+    ? "postgresql:///pixly_test"
     : process.env.DATABASE_URL || "postgresql:///pixly";
 }
-// Speed up bcrypt during tests, since the algorithm safety isn't being tested
-const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
+
 
 if (process.env.NODE_ENV !== "test") {
   console.log(`
-${"Jobly Config:".green}
-${"NODE_ENV:".yellow}           ${process.env.NODE_ENV}
-${"SECRET_KEY:".yellow}         ${SECRET_KEY}
-${"PORT:".yellow}               ${PORT}
-${"BCRYPT_WORK_FACTOR:".yellow} ${BCRYPT_WORK_FACTOR}
+${"Pixly Config:".green}
+${"BUCKET_NAME:".yellow}        ${BUCKET_NAME}
+${"BUCKET_REGION".yellow}       ${BUCKET_REGION}
+${"ACCESS_KEY:".yellow}         ${ACCESS_KEY}
+${"SECRET_ACCESS_KEY:".yellow}  ${SECRET_ACCESS_KEY}
 ${"Database:".yellow}           ${getDatabaseUri()}
 ---`);
 }
 
 export {
-  SECRET_KEY,
-  PORT,
-  BCRYPT_WORK_FACTOR,
+  BUCKET_NAME,
+  BUCKET_REGION,
+  ACCESS_KEY,
+  SECRET_ACCESS_KEY,
   getDatabaseUri,
 };
