@@ -3,8 +3,9 @@ import {
   PutObjectCommand,
   GetObjectCommand,
   paginateListObjectsV2
-
 } from "@aws-sdk/client-s3";
+
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import {
   BUCKET_NAME,
@@ -37,7 +38,7 @@ class Picture {
   /**TODO: Get all images from S3 bucket */
   static async getImagesFromBucket() {
     console.log("getImagesFromBucket");
-    const totalObjects = [];
+    const signedImageURLs = [];
 
     const paginator = paginateListObjectsV2(
       { client: s3Client },
@@ -48,15 +49,19 @@ class Picture {
       const objects = page.Contents;
       if (objects) {
         for (const object of objects) {
-          totalObjects.push(object);
+          console.log("object", object);
+          const getObjectParams = {
+            Bucket: BUCKET_NAME,
+            Key: object.Key
+          }
+          const command = new GetObjectCommand(getObjectParams);
+          const url = await getSignedUrl(s3Client, command, {expiresIn: 3600});
+          signedImageURLs.push(url);
         }
       }
-
     }
-    return totalObjects;
+    return signedImageURLs;
   }
-
-
 }
 
 export { Picture };
