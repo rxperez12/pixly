@@ -38,7 +38,7 @@ class Picture {
   /**TODO: Get all images from S3 bucket */
   static async getImagesFromBucket() {
     console.log("getImagesFromBucket");
-    const signedImageURLs = [];
+    const signedImages = [];
 
     const paginator = paginateListObjectsV2(
       { client: s3Client },
@@ -49,18 +49,17 @@ class Picture {
       const objects = page.Contents;
       if (objects) {
         for (const object of objects) {
-          console.log("object", object);
           const getObjectParams = {
             Bucket: BUCKET_NAME,
             Key: object.Key
           }
           const command = new GetObjectCommand(getObjectParams);
           const url = await getSignedUrl(s3Client, command, {expiresIn: 3600});
-          signedImageURLs.push(url);
+          signedImages.push({url, key: object.Key});
         }
       }
     }
-    return signedImageURLs;
+    return signedImages;
   }
 }
 
