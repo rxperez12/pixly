@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:3000/";
-// const $imageArea = document.querySelector(".image-area");
+const API_URL = "http://localhost:3000";
+
 const $imageList = document.querySelector(".image-list");
 
 /**
