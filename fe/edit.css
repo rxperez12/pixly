@@ -1,0 +1,8 @@
+.nav-header {
+  font-size: 1.5rem;
+}
+
+#canvas {
+  max-height: 420px;
+  object-fit: contain;
+}
