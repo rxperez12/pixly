@@ -39,6 +39,11 @@ app.post("/add", upload.single('image'), async function (req, res) {
   res.send({message: "image added!"});
 });
 
+/** Update an image */
+app.put("/update", async function (req, res) {
+  console.log(req.body);
+});
+
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
   throw new NotFoundError();
