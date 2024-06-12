@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:,">
-  <title>Starter</title>
+  <title>Practice Form</title>
+
 </head>
+
 <body>
-  <h1>Starter</h1>
+  <h1>Practice Form</h1>
   <div id="root"></div>
+  <div class="Upload-image-form">
+    <form action="http://localhost:3000/add" method="post" enctype="multipart/form-data">
+      <label for="image">Image</label>
+      <input id="image" name="image" type="file">
+      <button type="submit"> Upload</button>
+    </form>
+  </div>
 
   <script type="module" src="main.js"></script>
 </body>
+
 </html>
