@@ -1,12 +1,15 @@
 import express from "express";
 import multer from "multer";
+import cors from "cors";
 import { NotFoundError } from "./expressError.js";
 import { Picture } from "./models/picture.js";
 import { BUCKET_NAME } from "./config.js";
 
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cors());
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -16,7 +19,7 @@ const upload = multer({ storage: storage });
 app.get("/", async function (req, res) {
   console.log('GET');
   const images = await Picture.getImagesFromBucket();
-  res.send(images);
+  res.json({images});
 });
 
 //NOTE: 'image' argument for middleware function must match name of input field on HTML form
@@ -24,7 +27,6 @@ app.get("/", async function (req, res) {
 app.post("/add", upload.single('image'), async function (req, res) {
   console.log("req.body", req.body);
   console.log("req.file", req.file);
-  req.file.buffer;
 
   const params = {
     Bucket: BUCKET_NAME,
@@ -34,7 +36,7 @@ app.post("/add", upload.single('image'), async function (req, res) {
   };
 
   Picture.addImageToBucket(params);
-  res.send("image added!");
+  res.send({message: "image added!"});
 });
 
 /** Handle 404 errors -- this matches everything */
