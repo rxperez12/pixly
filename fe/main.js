@@ -17,10 +17,13 @@ async function getAndShowImages() {
 function putImagesOnPage(images) {
   console.log("putImagesOnPage", images);
   for (const image of images) {
+    //adding img
     const $img = document.createElement("img");
     $img.src = image.url;
     $img.classList.add('image');
     $img.id = image.key;
+
+    //adding li
     const $li = document.createElement("li");
     $li.classList.add('list-group-item');
     $li.appendChild($img);
@@ -31,7 +34,7 @@ function putImagesOnPage(images) {
 $imageList.addEventListener("click", (evt) => {
   const $clicked = evt.target;
   console.log("$clicked", $clicked);
-  if(!$clicked.matches('.image')) return;
+  if (!$clicked.matches('.image')) return;
 
   // add image key and url to localStorage
   localStorage.setItem("imageKey", $clicked.id);
