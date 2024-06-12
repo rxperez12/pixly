@@ -13,9 +13,10 @@ const upload = multer({ storage: storage });
 
 
 /** Sample route */
-app.get("/", function (req, res) {
+app.get("/", async function (req, res) {
   console.log('GET');
-  res.send('success');
+  const images = await Picture.getImagesFromBucket();
+  res.send(images);
 });
 
 //NOTE: 'image' argument for middleware function must match name of input field on HTML form
@@ -33,7 +34,7 @@ app.post("/add", upload.single('image'), async function (req, res) {
   };
 
   Picture.addImageToBucket(params);
-
+  res.send("image added!");
 });
 
 /** Handle 404 errors -- this matches everything */
