@@ -12,18 +12,32 @@ async function getAndShowImages() {
   putImagesOnPage(imagesResult.images);
 }
 
-/** Given a array of image URLs makes list of images and appends on image list */
-function putImagesOnPage(imageURLs) {
-  console.log("putImagesOnPage", imageURLs);
-  for (const url of imageURLs) {
+/** Given a array of image data objects
+ *  makes list of images and appends on image list */
+function putImagesOnPage(images) {
+  console.log("putImagesOnPage", images);
+  for (const image of images) {
     const $img = document.createElement("img");
-    $img.src = url;
-    const $li = document.createElement("li");
+    $img.src = image.url;
     $img.classList.add('image');
+    $img.id = image.key;
+    const $li = document.createElement("li");
+    $li.classList.add('list-group-item');
     $li.appendChild($img);
     $imageList.appendChild($li);
   }
 }
+
+$imageList.addEventListener("click", (evt) => {
+  const $clicked = evt.target;
+  console.log("$clicked", $clicked);
+  if(!$clicked.matches('.image')) return;
+
+  // add image key and url to localStorage
+  localStorage.setItem("imageKey", $clicked.id);
+  localStorage.setItem("imageURL", $clicked.src);
+  window.location.href = 'edit.html';
+});
 
 function start() {
   getAndShowImages();
