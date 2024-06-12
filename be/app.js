@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 app.get("/", async function (req, res) {
   console.log('GET');
   const images = await Picture.getImagesFromBucket();
-  res.json({images});
+  res.json({ images });
 });
 
 //NOTE: 'image' argument for middleware function must match name of input field on HTML form
@@ -36,12 +36,24 @@ app.post("/add", upload.single('image'), async function (req, res) {
   };
 
   Picture.addImageToBucket(params);
-  res.send({message: "image added!"});
+  res.send({ message: "image added!" });
 });
 
-/** Update an image */
-app.put("/update", async function (req, res) {
+/** Update existing image */
+app.put("/update", upload.single('image'), async function (req, res) {
   console.log(req.body);
+  console.log("req.file", req.file);
+
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: req.body.key,
+    Body: req.file.buffer,
+    ContentType: req.file.mimetype
+  };
+
+  Picture.addImageToBucket(params); //TODO: change name of add image?
+
+  res.json({ message: 'Image edited' });
 });
 
 /** Handle 404 errors -- this matches everything */
