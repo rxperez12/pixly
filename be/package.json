@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "vitest",
-    "test:cov": "vitest --coverage"
+    "dev": "node --watch server.js",
+    "test": "vitest --no-file-parallelism",
+    "test:cov": "vitest --no-file-parallelism --coverage"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
