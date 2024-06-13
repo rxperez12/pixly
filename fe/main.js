@@ -4,17 +4,32 @@ const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
 const $imageList = document.querySelector(".image-list");
 const $imageForm = document.querySelector(".upload-image-form");
 
-$imageForm.addEventListener("submit", function (evt) {
+
+/** Check for invalid size and if valid send to API */
+$imageForm.addEventListener("submit", async function (evt) {
+  evt.preventDefault();
   const $fileSizeError = document.querySelector(".file-size-error");
   const $fileInput = document.querySelector("#image");
   const file = $fileInput.files[0];
   if (file && file.size > FILE_SIZE_LIMIT) {
-    evt.preventDefault();
+
     $fileSizeError.innerHTML = "File exceeds 3MB, please choose a smaller image";
+    return;
   }
-  else {
-    $fileSizeError.innerHTML = '';
-  }
+
+  $fileSizeError.innerHTML = '';
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  fetch(`${API_URL}/add`, {
+    method: "POST",
+    body: formData
+  }).then(function (response) {
+    // message: "image added!" - setTimout - reloadsb
+    window.location.reload();
+  }).catch();
+
 });
 
 /**
@@ -51,6 +66,10 @@ function putImagesOnPage(images) {
   }
 }
 
+
+
+
+/** Listen for click event on image */
 $imageList.addEventListener("click", (evt) => {
   evt.preventDefault();
   const $clicked = evt.target;
