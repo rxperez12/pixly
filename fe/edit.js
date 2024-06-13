@@ -1,5 +1,6 @@
 /** FUNCTIONS FOR EDIT HTML */
 const API_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:5173";
 
 // query selectors
 const $canvas = document.querySelector(".canvas");
@@ -11,6 +12,7 @@ const $presetFilters = document.querySelector(".preset-filters");
 const $saveButton = document.querySelector(".save-image");
 const $saveAsCopy = document.querySelector(".save-as-copy");
 const $resetButton = document.querySelector(".reset-image");
+const $saveMessage = document.querySelector(".save-message");
 
 const $brightnessSlider = document.querySelector(".brightness-slider");
 const $contrastSlider = document.querySelector(".contrast-slider");
@@ -50,6 +52,7 @@ async function saveImage() {
 
   const result = await response.json();
   console.log(result);
+  $saveMessage.innerHTML = "Image Saved!"
 }
 $saveButton.addEventListener("click", saveImage);
 
@@ -69,6 +72,7 @@ async function saveImageAsCopy() {
 
   const result = await response.json();
   console.log(result);
+  $saveMessage.innerHTML = "Image Saved as Copy!"
 }
 $saveAsCopy.addEventListener("click", saveImageAsCopy);
 
@@ -82,7 +86,6 @@ function dataURItoBlob(dataURI) {
   }
   return new Blob([new Uint8Array(array)], { type: 'image/png' });
 }
-
 
 /** Reset edited image */
 function resetImage() {
