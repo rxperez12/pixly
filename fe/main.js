@@ -4,18 +4,18 @@ const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
 const $imageList = document.querySelector(".image-list");
 const $imageForm = document.querySelector(".upload-image-form");
 
-$imageForm.addEventListener("submit", function(evt) {
+$imageForm.addEventListener("submit", function (evt) {
   const $fileSizeError = document.querySelector(".file-size-error");
   const $fileInput = document.querySelector("#image");
   const file = $fileInput.files[0];
-  if(file && file.size > FILE_SIZE_LIMIT) {
+  if (file && file.size > FILE_SIZE_LIMIT) {
     evt.preventDefault();
     $fileSizeError.innerHTML = "File exceeds 3MB, please choose a smaller image";
   }
   else {
     $fileSizeError.innerHTML = '';
   }
-})
+});
 
 /**
  * Get images from API and display on page
@@ -28,7 +28,7 @@ async function getAndShowImages() {
 }
 
 /** Given a array of image data objects
- *  makes list of images and appends on image list */
+ *  makes list of images and appends on image list TODO: add anchor instead of on click*/
 function putImagesOnPage(images) {
   console.log("putImagesOnPage", images);
   for (const image of images) {
