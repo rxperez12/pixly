@@ -14,9 +14,6 @@ import {
   SECRET_ACCESS_KEY
 } from "../config.js";
 
-import { v4 as uuid } from "uuid"; //USE FOR KEY
-
-
 const s3Client = new S3Client({
   credentials: {
     accessKeyId: ACCESS_KEY,
@@ -27,7 +24,7 @@ const s3Client = new S3Client({
 
 class Picture {
 
-  /** TODO: Given image, upload file to S3 bucket */
+  /** Given image, upload file to S3 bucket */
   static async addImageToBucket(params) {
     console.log("addImageToBucket");
     await s3Client.send(
@@ -35,7 +32,7 @@ class Picture {
     );
   }
 
-  /**TODO: Get all images from S3 bucket */
+  /** Get all images from S3 bucket */
   static async getImagesFromBucket() {
     console.log("getImagesFromBucket");
     const signedImages = [];
