@@ -12,6 +12,12 @@ const $saveButton = document.querySelector(".save-image");
 const $saveAsCopy = document.querySelector(".save-as-copy");
 const $resetButton = document.querySelector(".reset-image");
 
+const $brightnessSlider = document.querySelector(".brightness-slider");
+const $contrastSlider = document.querySelector(".contrast-slider");
+const $greyscaleSlider = document.querySelector(".greyscale-slider");
+const $saturationSlider = document.querySelector(".saturation-slider");
+const $sepiaSlider = document.querySelector(".sepia-slider");
+
 
 /** Given image url, puts saves image in front end and created canvas for editing */
 function loadImage() {
@@ -24,6 +30,7 @@ function loadImage() {
     context.drawImage(this, 0, 0);
   };
 }
+
 
 /** Given canvas data, create blob object from canvas, and make API call to save
  * in S3 bucket.
@@ -76,46 +83,45 @@ function dataURItoBlob(dataURI) {
   return new Blob([new Uint8Array(array)], { type: 'image/png' });
 }
 
+
 /** Reset edited image */
 function resetImage() {
-  const filters = {
-    brightnessScale: '100',
-    contrastScale: '100',
-    greyScale: '0',
-    saturateScale: '100',
-    sepiaScale: '0'
-  }
-  applyFilters(filters);
+  $brightnessSlider.value = '100';
+  $contrastSlider.value = '100';
+  $greyscaleSlider.value = '0';
+  $saturationSlider.value = '100';
+  $sepiaSlider.value = '0';
+  applyFilters();
 }
 $resetButton.addEventListener("click", resetImage);
+
 
 /** Applies settings for black and white filter and then applies them to canvas */
 function applyBlackWhiteFilter() {
   console.log('blackwhite filter');
-  const greyScale = `100`;
-  const brightnessScale = `120`;
-  const contrastScale = `120`;
-  applyFilters({ greyScale, brightnessScale, contrastScale });
+  $brightnessSlider.value = '120';
+  $greyscaleSlider.value = '100';
+  $contrastSlider.value = '120';
+  applyFilters();
 }
 
 /** Applies settings for sepia filter to the canvas image */
 function applySepiaFilter() {
   console.log("sepia filter");
-  const sepiaScale = '70';
-  applyFilters({ sepiaScale });
+  $sepiaSlider.value = '70';
+  applyFilters();
 }
 
 /** Take argument string settings and applies the settings to the image*/
-function applyFilters(filters) {
-  console.log('Applied filters:', filters);
+function applyFilters() {
+  console.log("applyFilters");
 
-  //TODO: make default values global constants
-  let filterString =
-    "brightness(" + (filters.brightnessScale || '100') + "%" +
-    ") contrast(" + (filters.contrastScale || '100') + "%" +
-    ") grayscale(" + (filters.greyScale || '0') + "%" +
-    ") saturate(" + (filters.saturateScale || '100') + "%" +
-    ") sepia(" + (filters.sepiaScale || '0') + "%" +
+  const filterString =
+    "brightness(" + $brightnessSlider.value + "%" +
+    ") contrast(" + $contrastSlider.value + "%" +
+    ") grayscale(" + $greyscaleSlider.value + "%" +
+    ") saturate(" + $saturationSlider.value + "%" +
+    ") sepia(" + $sepiaSlider.value + "%" +
     ")";
   console.log("filterString", filterString);
 
@@ -141,6 +147,7 @@ $presetFilters.addEventListener("click", (evt) => {
 /** Starts editing */
 function start() {
   loadImage();
+  window.applyFilters = applyFilters;
 }
 
 start();
