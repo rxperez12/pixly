@@ -1,7 +1,8 @@
 import {
   S3Client,
   PutObjectCommand,
-  paginateListObjectsV2
+  paginateListObjectsV2,
+  DeleteObjectCommand
 } from "@aws-sdk/client-s3";
 
 
@@ -23,7 +24,7 @@ const s3Client = new S3Client({
 const BASE_BUCKET_URL = "https://pixly-r38.s3.us-east-2.amazonaws.com";
 
 /** Model for Picture holds all functions for S3 integration */
-class Picture {
+class BucketHandler {
 
   /** Given image, upload file to S3 bucket */
   static async addImageToBucket(params) {
@@ -54,6 +55,18 @@ class Picture {
     }
     return images;
   }
+
+  /** Delete image from S3 bucket */
+  static async deleteImageFromBucket({ key }) {
+    console.log("getImagesFromBucket");
+
+    const command = new DeleteObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key
+    });
+
+    await s3Client.send(command);
+  }
 }
 
-export { Picture };
+export { BucketHandler };
