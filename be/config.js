@@ -1,6 +1,6 @@
 /** Shared config for application; can be required many places. */
 
-//CHANGE CONFIG TO MATCH DB FOR PIXLY TODO:
+//CHANGE CONFIG TO MATCH DB FOR PIXLY
 import dotenv from "dotenv";
 import "colors";
 

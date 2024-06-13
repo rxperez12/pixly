@@ -1,11 +1,9 @@
 import {
   S3Client,
   PutObjectCommand,
-  GetObjectCommand,
   paginateListObjectsV2
 } from "@aws-sdk/client-s3";
 
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import {
   BUCKET_NAME,
@@ -22,6 +20,9 @@ const s3Client = new S3Client({
   region: BUCKET_REGION
 });
 
+const BASE_BUCKET_URL = "https://pixly-r38.s3.us-east-2.amazonaws.com";
+
+/** Model for Picture holds all functions for S3 integration */
 class Picture {
 
   /** Given image, upload file to S3 bucket */
@@ -35,7 +36,7 @@ class Picture {
   /** Get all images from S3 bucket */
   static async getImagesFromBucket() {
     console.log("getImagesFromBucket");
-    const signedImages = [];
+    const images = [];
 
     const paginator = paginateListObjectsV2(
       { client: s3Client },
@@ -46,17 +47,12 @@ class Picture {
       const objects = page.Contents;
       if (objects) {
         for (const object of objects) {
-          const getObjectParams = {
-            Bucket: BUCKET_NAME,
-            Key: object.Key
-          }
-          const command = new GetObjectCommand(getObjectParams);
-          const url = await getSignedUrl(s3Client, command, {expiresIn: 3600});
-          signedImages.push({url, key: object.Key});
+          const url = `${BASE_BUCKET_URL}/${object.Key}`;
+          images.push({ url, key: object.Key });
         }
       }
     }
-    return signedImages;
+    return images;
   }
 }
 
