@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import cors from "cors";
+import crypto from "crypto";
 import { NotFoundError } from "./expressError.js";
 import { Picture } from "./models/picture.js";
 import { BUCKET_NAME } from "./config.js";
@@ -13,9 +14,10 @@ app.use(cors());
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
 
-/** Sample route */
+/** Get images */
 app.get("/", async function (req, res) {
   console.log('GET');
   const images = await Picture.getImagesFromBucket();
@@ -30,7 +32,7 @@ app.post("/add", upload.single('image'), async function (req, res) {
 
   const params = {
     Bucket: BUCKET_NAME,
-    Key: req.file.originalname,
+    Key: randomImageName(),
     Body: req.file.buffer,
     ContentType: req.file.mimetype
   };
