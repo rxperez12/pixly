@@ -22,7 +22,7 @@ $imageForm.addEventListener("submit", async function (evt) {
   const formData = new FormData();
   formData.append("image", file);
 
-  fetch(`${API_URL}/add`, {
+  fetch(`${API_URL}/images`, {
     method: "POST",
     body: formData
   }).then(function (response) {
@@ -37,7 +37,7 @@ $imageForm.addEventListener("submit", async function (evt) {
  */
 async function getAndShowImages() {
   console.log("getAndShowImages");
-  const response = await fetch(API_URL);
+  const response = await fetch(`${API_URL}/images`);
   const imagesResult = await response.json(); //images: image:{url, key}
   putImagesOnPage(imagesResult.images);
 }
@@ -83,7 +83,7 @@ $imageList.addEventListener("click", (evt) => {
 });
 
 async function start() {
-  localStorage.clear();
+  // localStorage.clear();
   getAndShowImages();
 }
 
