@@ -11,45 +11,46 @@
 </head>
 
 <body>
-  <nav>
+  <div class="container image-editing-area">
+    <div class="row row-cols-12">
+      <div class="col-6">
+        <h1>Edit Your Picture</h1>
+        <img class="source-image d-none" crossorigin="anonymous">
+        <canvas class="canvas"></canvas>
+      </div>
 
-  </nav>
 
-  <div class="image-editing-area">
-    <h1>Edit Your Picture</h1>
-    <div class="image">
-      <img class="source-image d-none" crossorigin="anonymous">
-      <canvas class="canvas"></canvas>
-
-      <div class="preset-filters">
+      <div class="preset-filters col-6 my-5">
         <h5>Preset Filters</h5>
         <button class="black-white btn btn-dark">Black and White</button>
         <button class="sepia btn btn-info">Sepia</button>
+        <button class="reset-image btn btn-warning"> Reset Image</button>
+
+        <div class="image-sliders row my-5">
+          <h5>Sliders</h5>
+          <label for="brightness-slider">Brightness</label>
+          <input class="brightness-slider" type="range" value="100" min="0" max="300" oninput="applyFilters()"><br>
+
+          <label for="contrast-slider">Contrast</label>
+          <input class="contrast-slider" type="range" value="100" min="0" max="200" oninput="applyFilters()"><br>
+
+          <label for="greyscale-slider">Greyscale</label>
+          <input class="greyscale-slider" type="range" value="0" min="0" max="100" oninput="applyFilters()"><br>
+
+          <label for="saturation-slider">Saturation</label>
+          <input class="saturation-slider" type="range" value="100" min="0" max="300" oninput="applyFilters()"><br>
+
+          <label for="sepia-slider">Sepia</label>
+          <input class="sepia-slider" type="range" value="0" min="0" max="200" oninput="applyFilters()"><br>
+
+          <div class="my-5">
+            <button class="save-image btn btn-success">Save Image</button>
+            <button class="save-as-copy btn btn-secondary"> Save As Copy</button>
+            <a href="index.html" class="btn btn-danger">Cancel</a>
+          </div>
+        </div>
       </div>
-
-      <div class="image-sliders">
-        <h5>Sliders</h5>
-        <label for="brightness-slider">Brightness</label>
-        <input class="brightness-slider" type="range" value="100" min="0" max="300" onchange="applyFilters()"><br>
-
-        <label for="contrast-slider">Contrast</label>
-        <input class="contrast-slider" type="range" value="100" min="0" max="200" onchange="applyFilters()"><br>
-
-        <label for="greyscale-slider">Greyscale</label>
-        <input class="greyscale-slider" type="range" value="0" min="0" max="100" onchange="applyFilters()"><br>
-
-        <label for="saturation-slider">Saturation</label>
-        <input class="saturation-slider" type="range" value="100" min="0" max="300" onchange="applyFilters()"><br>
-
-        <label for="sepia-slider">Sepia</label>
-        <input class="sepia-slider" type="range" value="0" min="0" max="200" onchange="applyFilters()"><br>
-      </div>
-
     </div>
-    <button class="save-image btn btn-success">Save Image</button>
-    <button class="save-as-copy btn btn-secondary"> Save As Copy</button>
-    <button class="reset-image btn btn-warning"> Reset Image</button>
-    <div class="save-message"></div>
   </div>
 </body>
 
