@@ -7,7 +7,6 @@
   object-fit: contain;
 }
 
-/* .source-image{
-  width: 500px;
-  height: auto;
-} */
+.save-message{
+  font-size: 24pt;
+}
