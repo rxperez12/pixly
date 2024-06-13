@@ -68,8 +68,9 @@ app.put("/images/:key", upload.single('image'), async function (req, res) {
   res.json({ message: 'Image edited' });
 });
 
-app.delete("/images/:key", async function (req, res) {
 
+/** Delete an image from the bucket */
+app.delete("/images/:key", async function (req, res) {
   const key = req.params.key;
 
   try {
