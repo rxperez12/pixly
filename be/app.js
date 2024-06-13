@@ -37,7 +37,7 @@ app.post("/add", upload.single('image'), async function (req, res) {
     ContentType: req.file.mimetype
   };
 
-  Picture.addImageToBucket(params);
+  await Picture.addImageToBucket(params);
   res.send({ message: "image added!" });
 });
 
@@ -53,7 +53,7 @@ app.put("/update", upload.single('image'), async function (req, res) {
     ContentType: req.file.mimetype
   };
 
-  Picture.addImageToBucket(params); //TODO: change name of add image?
+  await Picture.addImageToBucket(params); //TODO: change name of add image?
 
   res.json({ message: 'Image edited' });
 });
