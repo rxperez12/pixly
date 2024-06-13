@@ -8,28 +8,29 @@ const $imageForm = document.querySelector(".upload-image-form");
 /** Check for invalid size and if valid send to API */
 $imageForm.addEventListener("submit", async function (evt) {
   evt.preventDefault();
-  const $fileSizeError = document.querySelector(".file-size-error");
+  const $fileError = document.querySelector(".file-error");
   const $fileInput = document.querySelector("#image");
   const file = $fileInput.files[0];
-  if (file && file.size > FILE_SIZE_LIMIT) {
 
-    $fileSizeError.innerHTML = "File exceeds 3MB, please choose a smaller image";
+  if(!file) {
+    $fileError.innerHTML = "Please select a file before uploading";
+    return;
+  }
+  else if (file && file.size > FILE_SIZE_LIMIT) {
+    $fileError.innerHTML = "File exceeds 3MB, please choose a smaller image";
     return;
   }
 
-  $fileSizeError.innerHTML = '';
 
   const formData = new FormData();
   formData.append("image", file);
 
-  fetch(`${API_URL}/images`, {
+  await fetch(`${API_URL}/images`, {
     method: "POST",
     body: formData
-  }).then(function (response) {
-    // message: "image added!" - setTimout - reloadsb
-    window.location.reload();
-  }).catch();
+  });
 
+  window.location.reload();
 });
 
 /**
@@ -39,7 +40,12 @@ async function getAndShowImages() {
   console.log("getAndShowImages");
   const response = await fetch(`${API_URL}/images`);
   const imagesResult = await response.json(); //images: image:{url, key}
-  putImagesOnPage(imagesResult.images);
+  if(imagesResult.images.length === 0) {
+    $imageList.innerHTML = "No images found, try uploading some!";
+  }
+  else{
+    putImagesOnPage(imagesResult.images);
+  }
 }
 
 /** Given a array of image data objects
@@ -47,40 +53,57 @@ async function getAndShowImages() {
 function putImagesOnPage(images) {
   console.log("putImagesOnPage", images);
   for (const image of images) {
-    // adding img
+    // create img element
     const $img = document.createElement("img");
     $img.src = image.url;
     $img.classList.add('image');
     $img.id = image.key;
 
-    // adding anchor tag
+    // create anchor element
     const $anchor = document.createElement("a");
     $anchor.href = '/edit.html';
     $anchor.appendChild($img);
 
+    // create delete button
+    const $deleteButton = document.createElement("button");
+    $deleteButton.setAttribute('key', $img.id);
+    $deleteButton.classList.add("btn", "btn-danger", "delete-image-button");
+    $deleteButton.innerText = "X";
+
     // adding li
     const $li = document.createElement("li");
     $li.classList.add('list-group-item');
-    $li.appendChild($anchor);
+    $li.append($anchor, $deleteButton);
     $imageList.appendChild($li);
   }
 }
 
 
-
-
-/** Listen for click event on image */
-$imageList.addEventListener("click", (evt) => {
+/** Listen for click event on image or its' delete button*/
+$imageList.addEventListener("click", function(evt) {
   evt.preventDefault();
   const $clicked = evt.target;
   console.log("$clicked", $clicked);
-  if (!$clicked.matches('.image')) return;
-
-  // add image key and url to localStorage
-  localStorage.setItem("imageKey", $clicked.id);
-  localStorage.setItem("imageURL", $clicked.src);
-  window.location.href = 'http://localhost:5173/edit.html';
+  if ($clicked.matches('.image')) {
+    // add image key and url to localStorage, load edit page
+    localStorage.setItem("imageKey", $clicked.id);
+    localStorage.setItem("imageURL", $clicked.src);
+    window.location.href = 'http://localhost:5173/edit.html';
+  }
+  else if ($clicked.matches(".delete-image-button")) {
+    const imageKey = $clicked.getAttribute('key');
+    deleteImage(imageKey);
+  }
 });
+
+/** Delete an image by key, reload page */
+async function deleteImage(key) {
+  await fetch(`${API_URL}/images/${key}`, {
+    method: "DELETE"
+  });
+
+  window.location.reload();
+}
 
 async function start() {
   // localStorage.clear();
