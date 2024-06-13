@@ -28,25 +28,31 @@ async function getAndShowImages() {
 }
 
 /** Given a array of image data objects
- *  makes list of images and appends on image list TODO: add anchor instead of on click*/
+ *  makes list of images and appends on image list */
 function putImagesOnPage(images) {
   console.log("putImagesOnPage", images);
   for (const image of images) {
-    //adding img
+    // adding img
     const $img = document.createElement("img");
     $img.src = image.url;
     $img.classList.add('image');
     $img.id = image.key;
 
-    //adding li
+    // adding anchor tag
+    const $anchor = document.createElement("a");
+    $anchor.href = '/edit.html';
+    $anchor.appendChild($img);
+
+    // adding li
     const $li = document.createElement("li");
     $li.classList.add('list-group-item');
-    $li.appendChild($img);
+    $li.appendChild($anchor);
     $imageList.appendChild($li);
   }
 }
 
 $imageList.addEventListener("click", (evt) => {
+  evt.preventDefault();
   const $clicked = evt.target;
   console.log("$clicked", $clicked);
   if (!$clicked.matches('.image')) return;
@@ -54,10 +60,11 @@ $imageList.addEventListener("click", (evt) => {
   // add image key and url to localStorage
   localStorage.setItem("imageKey", $clicked.id);
   localStorage.setItem("imageURL", $clicked.src);
-  window.location.href = 'edit.html';
+  window.location.href = 'http://localhost:5173/edit.html';
 });
 
-function start() {
+async function start() {
+  localStorage.clear();
   getAndShowImages();
 }
 
