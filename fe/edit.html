@@ -29,8 +29,20 @@
 
       <div class="image-sliders">
         <h5>Sliders</h5>
-        <label for="brightnessSlider">Brightness</label>
-        <input class="brightnessSlider" type="range" value="100" min="0" max="300">
+        <label for="brightness-slider">Brightness</label>
+        <input class="brightness-slider" type="range" value="100" min="0" max="300" onchange="applyFilters()"><br>
+
+        <label for="contrast-slider">Contrast</label>
+        <input class="contrast-slider" type="range" value="100" min="0" max="200" onchange="applyFilters()"><br>
+
+        <label for="greyscale-slider">Greyscale</label>
+        <input class="greyscale-slider" type="range" value="0" min="0" max="100" onchange="applyFilters()"><br>
+
+        <label for="saturation-slider">Saturation</label>
+        <input class="saturation-slider" type="range" value="100" min="0" max="300" onchange="applyFilters()"><br>
+
+        <label for="sepia-slider">Sepia</label>
+        <input class="sepia-slider" type="range" value="0" min="0" max="200" onchange="applyFilters()"><br>
       </div>
 
     </div>
