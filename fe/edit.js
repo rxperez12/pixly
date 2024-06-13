@@ -40,19 +40,20 @@ function loadImage() {
 async function saveImage() {
   const canvasData = $canvas.toDataURL("image/png");
   const blobData = dataURItoBlob(canvasData);
+  const key = localStorage.getItem('imageKey');
 
   const formData = new FormData();
   formData.append("image", blobData);
-  formData.append('key', localStorage.getItem("imageKey"));
 
-  const response = await fetch(`${API_URL}/update`, {
+
+  const response = await fetch(`${API_URL}/images/${key}`, {
     method: 'PUT',
     body: formData
   });
 
   const result = await response.json();
   console.log(result);
-  $saveMessage.innerHTML = "Image Saved!"
+  $saveMessage.innerHTML = "Image Saved!";
 }
 $saveButton.addEventListener("click", saveImage);
 
@@ -61,18 +62,19 @@ $saveButton.addEventListener("click", saveImage);
 async function saveImageAsCopy() {
   const canvasData = $canvas.toDataURL("image/png");
   const blobData = dataURItoBlob(canvasData);
+  const key = localStorage.getItem('imageKey');
 
   const formData = new FormData();
   formData.append("image", blobData);
 
-  const response = await fetch(`${API_URL}/add`, {
+  const response = await fetch(`${API_URL}/images`, {
     method: "POST",
     body: formData
   });
 
   const result = await response.json();
   console.log(result);
-  $saveMessage.innerHTML = "Image Saved as Copy!"
+  $saveMessage.innerHTML = "Image Saved as Copy!";
 }
 $saveAsCopy.addEventListener("click", saveImageAsCopy);
 
