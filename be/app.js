@@ -3,7 +3,7 @@ import multer from "multer";
 import cors from "cors";
 import crypto from "crypto";
 import { NotFoundError } from "./expressError.js";
-import { Picture } from "./models/picture.js";
+import { BucketHandler } from "./models/BucketHandler.js";
 import { BUCKET_NAME } from "./config.js";
 
 
@@ -16,17 +16,18 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
+//images/:key
 
 /** Get images */
-app.get("/", async function (req, res) {
+app.get("/images", async function (req, res) {
   console.log('GET');
-  const images = await Picture.getImagesFromBucket();
+  const images = await BucketHandler.getImagesFromBucket();
   res.json({ images });
 });
 
 //NOTE: 'image' argument for middleware function must match name of input field on HTML form
 /** Upload an image */
-app.post("/add", upload.single('image'), async function (req, res) {
+app.post("/images", upload.single('image'), async function (req, res) {
   console.log("req.body", req.body);
   console.log("req.file", req.file);
 
@@ -36,26 +37,48 @@ app.post("/add", upload.single('image'), async function (req, res) {
     Body: req.file.buffer,
     ContentType: req.file.mimetype
   };
+  try {
+    await BucketHandler.addImageToBucket(params);
+  } catch (err) {
+    res.json({ message: `Image upload failed: ${err}` });
+  }
 
-  await Picture.addImageToBucket(params);
-  res.send({ message: "image added!" });
+  res.json({ message: "image added!" });
 });
 
 /** Update existing image */
-app.put("/update", upload.single('image'), async function (req, res) {
+app.put("/images/:key", upload.single('image'), async function (req, res) {
   console.log(req.body);
   console.log("req.file", req.file);
 
+  const key = req.params.key;
+
   const params = {
     Bucket: BUCKET_NAME,
-    Key: req.body.key,
+    Key: key,
     Body: req.file.buffer,
     ContentType: req.file.mimetype
   };
-
-  await Picture.addImageToBucket(params); //TODO: change name of add image?
+  try {
+    await BucketHandler.addImageToBucket(params);
+  } catch (err) {
+    res.json({ message: `Image update failed: ${err}` });
+  }
 
   res.json({ message: 'Image edited' });
+});
+
+app.delete("/images/:key", async function (req, res) {
+
+  const key = req.params.key;
+
+  try {
+    await BucketHandler.deleteImageFromBucket({ key });
+  } catch (err) {
+    res.json({ message: `Delete failed: ${err}` });
+  }
+
+  res.json({ message: `Delete successful` });
 });
 
 /** Handle 404 errors -- this matches everything */
