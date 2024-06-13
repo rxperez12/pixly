@@ -12,7 +12,6 @@ const $presetFilters = document.querySelector(".preset-filters");
 const $saveButton = document.querySelector(".save-image");
 const $saveAsCopy = document.querySelector(".save-as-copy");
 const $resetButton = document.querySelector(".reset-image");
-const $saveMessage = document.querySelector(".save-message");
 
 const $brightnessSlider = document.querySelector(".brightness-slider");
 const $contrastSlider = document.querySelector(".contrast-slider");
@@ -53,7 +52,7 @@ async function saveImage() {
 
   const result = await response.json();
   console.log(result);
-  $saveMessage.innerHTML = "Image Saved!";
+  window.location.href = "index.html";
 }
 $saveButton.addEventListener("click", saveImage);
 
@@ -74,7 +73,7 @@ async function saveImageAsCopy() {
 
   const result = await response.json();
   console.log(result);
-  $saveMessage.innerHTML = "Image Saved as Copy!";
+  window.location.href = "index.html";
 }
 $saveAsCopy.addEventListener("click", saveImageAsCopy);
 
@@ -88,6 +87,7 @@ function dataURItoBlob(dataURI) {
   }
   return new Blob([new Uint8Array(array)], { type: 'image/png' });
 }
+
 
 /** Reset edited image */
 function resetImage() {
@@ -116,6 +116,7 @@ function applySepiaFilter() {
   $sepiaSlider.value = '70';
   applyFilters();
 }
+
 
 /** Take argument string settings and applies the settings to the image*/
 function applyFilters() {
