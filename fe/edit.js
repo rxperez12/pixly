@@ -9,6 +9,8 @@ const $sourceImage = document.querySelector(".source-image");
 const $bwButton = document.querySelector(".black-white");
 const $presetFilters = document.querySelector(".preset-filters");
 const $saveButton = document.querySelector(".save-image");
+const $saveAsCopy = document.querySelector(".save-as-copy");
+const $resetButton = document.querySelector(".reset-image");
 
 
 /** Given image url, puts saves image in front end and created canvas for editing */
@@ -29,7 +31,6 @@ function loadImage() {
 async function saveImage() {
   const canvasData = $canvas.toDataURL("image/png");
   const blobData = dataURItoBlob(canvasData);
-  console.log("blobData", blobData);
 
   const formData = new FormData();
   formData.append("image", blobData);
@@ -43,8 +44,26 @@ async function saveImage() {
   const result = await response.json();
   console.log(result);
 }
-
 $saveButton.addEventListener("click", saveImage);
+
+
+/** Save edited image as a copy */
+async function saveImageAsCopy() {
+  const canvasData = $canvas.toDataURL("image/png");
+  const blobData = dataURItoBlob(canvasData);
+
+  const formData = new FormData();
+  formData.append("image", blobData);
+
+  const response = await fetch(`${API_URL}/add`, {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log(result);
+}
+$saveAsCopy.addEventListener("click", saveImageAsCopy);
 
 
 /** Given URI, return a blob object with data from URI */
@@ -59,32 +78,46 @@ function dataURItoBlob(dataURI) {
 
 /** Reset edited image */
 function resetImage() {
-  const greyScale = `greyscale(0%)`;
-  const brightnessScale = `brightness(100%)`;
-  const contrast = `contrast(100%)`;
-
+  const filters = {
+    brightnessScale: '100',
+    contrastScale: '100',
+    greyScale: '0',
+    saturateScale: '100',
+    sepiaScale: '0'
+  }
+  applyFilters(filters);
 }
+$resetButton.addEventListener("click", resetImage);
 
 /** Applies settings for black and white filter and then applies them to canvas */
-function blackWhiteFilter() {
+function applyBlackWhiteFilter() {
   console.log('blackwhite filter');
   const greyScale = `100`;
   const brightnessScale = `120`;
   const contrastScale = `120`;
-  applyFilter({ greyScale, brightnessScale, contrastScale });
+  applyFilters({ greyScale, brightnessScale, contrastScale });
+}
+
+/** Applies settings for sepia filter to the canvas image */
+function applySepiaFilter() {
+  console.log("sepia filter");
+  const sepiaScale = '70';
+  applyFilters({ sepiaScale });
 }
 
 /** Take argument string settings and applies the settings to the image*/
-function applyFilter(filters) {
+function applyFilters(filters) {
   console.log('Applied filters:', filters);
 
+  //TODO: make default values global constants
   let filterString =
-    "brightness(" + filters.brightnessScale + "%" +
-    ") contrast(" + filters.contrastScale + "%" +
-    ") grayscale(" + filters.greyScale + "%" +
-    ") saturate(" + "50" + "%" +
-    ") sepia(" + "0" + "%" +
+    "brightness(" + (filters.brightnessScale || '100') + "%" +
+    ") contrast(" + (filters.contrastScale || '100') + "%" +
+    ") grayscale(" + (filters.greyScale || '0') + "%" +
+    ") saturate(" + (filters.saturateScale || '100') + "%" +
+    ") sepia(" + (filters.sepiaScale || '0') + "%" +
     ")";
+  console.log("filterString", filterString);
 
   context.filter = filterString;
   context.drawImage($sourceImage, 0, 0);
@@ -94,10 +127,14 @@ $presetFilters.addEventListener("click", (evt) => {
   const $clicked = evt.target;
 
   if ($clicked.matches('.black-white')) {
-    console.log("clicked on black and white");
-    blackWhiteFilter();
+    resetImage();
+    applyBlackWhiteFilter();
   }
 
+  if ($clicked.matches('.sepia')) {
+    resetImage();
+    applySepiaFilter();
+  }
 });
 
 
