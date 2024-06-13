@@ -1,6 +1,21 @@
 const API_URL = "http://localhost:3000";
+const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
 
 const $imageList = document.querySelector(".image-list");
+const $imageForm = document.querySelector(".upload-image-form");
+
+$imageForm.addEventListener("submit", function(evt) {
+  const $fileSizeError = document.querySelector(".file-size-error");
+  const $fileInput = document.querySelector("#image");
+  const file = $fileInput.files[0];
+  if(file && file.size > FILE_SIZE_LIMIT) {
+    evt.preventDefault();
+    $fileSizeError.innerHTML = "File exceeds 3MB, please choose a smaller image";
+  }
+  else {
+    $fileSizeError.innerHTML = '';
+  }
+})
 
 /**
  * Get images from API and display on page
