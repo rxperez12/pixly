@@ -171,6 +171,7 @@ $canvas.addEventListener('mousedown', (evt) => {
   draw(startX, startY, canvasOffsetX, canvasOffsetY);
 });
 
+// drawing lines as mouse moves
 $canvas.addEventListener('mousemove', (evt) => {
 
   if (isPainting !== true) return;
@@ -181,11 +182,13 @@ $canvas.addEventListener('mousemove', (evt) => {
   draw(startX, startY, canvasOffsetX, canvasOffsetY);
 });
 
+// turns off drawing on mouse release
 $canvas.addEventListener('mouseup', (evt) => {
   console.log('not painting');
   isPainting = false;
 });
 
+/** Draws lines of drawColor color on canvas*/
 function draw(x, y, offsetX, offsetY) {
   console.log("drawColor", $drawColor.value);
 
