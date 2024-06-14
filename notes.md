@@ -38,7 +38,10 @@ TOMORROW LIST
     - Explain tech stack reasoning
     - show uploading images
     - show backend API
+
   - Canvas
+    - canvas HTML element, blank area.
+      - can apply filters, draw lines and shapes, etc.
     - load images onto canvas
     - demo the filter sliders
     - explain canvas context
