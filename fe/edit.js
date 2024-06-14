@@ -19,6 +19,7 @@ const $greyscaleSlider = document.querySelector(".greyscale-slider");
 const $saturationSlider = document.querySelector(".saturation-slider");
 const $sepiaSlider = document.querySelector(".sepia-slider");
 const $blurSlider = document.querySelector(".blur-slider");
+const $drawColor = document.querySelector(".draw-color-select");
 
 //GLOBALS FOR DRAWING
 let isPainting = false;
@@ -143,6 +144,7 @@ function applyFilters() {
   context.drawImage($sourceImage, 0, 0);
 }
 
+// event delegation for preset filter buttons
 $presetFilters.addEventListener("click", (evt) => {
   const $clicked = evt.target;
 
@@ -157,6 +159,8 @@ $presetFilters.addEventListener("click", (evt) => {
   }
 });
 
+
+// drawing lines on image when holding down mouse
 $canvas.addEventListener('mousedown', (evt) => {
   console.log("painting");
   isPainting = true;
@@ -183,8 +187,10 @@ $canvas.addEventListener('mouseup', (evt) => {
 });
 
 function draw(x, y, offsetX, offsetY) {
+  console.log("drawColor", $drawColor.value);
+
   context.lineWidth = lineWidth;
-  context.fillStyle = 'black';
+  context.strokeStyle = $drawColor.value;
   context.beginPath();
   context.lineCap = 'round';
   context.lineTo(x - offsetX, y - offsetY);
