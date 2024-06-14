@@ -38,9 +38,9 @@ TOMORROW LIST
     - show uploading images
     - show backend API
   - Canvas
+    - load images onto canvas
     - demo the filter sliders
     - explain canvas context
-    - load images onto canvas
     - apply filters using context and filterString
 
 
