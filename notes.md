@@ -33,7 +33,21 @@ TODO:
 TOMORROW LIST
 
 - Prepare for lightning talk - topics to talk about?
+  - Tech demo
+    - Explain tech stack reasoning
+    - show uploading images
+    - show backend API
+  - Canvas
+    - demo the filter sliders
+    - explain canvas context
+    - load images onto canvas
+    - apply filters using context and filterString
 
+
+
+
+
+- BUCKET POLICY:
 {
 "Version":"2024-06-13",
 "Statement": [
