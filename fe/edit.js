@@ -18,6 +18,7 @@ const $contrastSlider = document.querySelector(".contrast-slider");
 const $greyscaleSlider = document.querySelector(".greyscale-slider");
 const $saturationSlider = document.querySelector(".saturation-slider");
 const $sepiaSlider = document.querySelector(".sepia-slider");
+const $blurSlider = document.querySelector(".blur-slider");
 
 
 /** Given image url, puts saves image in front end and created canvas for editing */
@@ -96,6 +97,7 @@ function resetImage() {
   $greyscaleSlider.value = '0';
   $saturationSlider.value = '100';
   $sepiaSlider.value = '0';
+  $blurSlider.value = '0';
   applyFilters();
 }
 $resetButton.addEventListener("click", resetImage);
@@ -128,7 +130,8 @@ function applyFilters() {
     ") grayscale(" + $greyscaleSlider.value + "%" +
     ") saturate(" + $saturationSlider.value + "%" +
     ") sepia(" + $sepiaSlider.value + "%" +
-    ")";
+    ") blur(" + $blurSlider.value + "px" +
+    ")"
   console.log("filterString", filterString);
 
   context.filter = filterString;
