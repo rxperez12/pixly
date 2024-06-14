@@ -14,14 +14,26 @@
   <div class="container my-3 image-editing-area">
     <div class="heading">
       <h1>Edit Your Picture</h1>
-      <p class="description">Add stylings to the picture!</p>
+      <p class="description"><b>Add stylings to the picture!</b> Hint: try drawing on the image with your mouse :)</p>
     </div>
     <div class="row row-cols-auto g-2">
       <div class="col-auto">
         <img class="source-image d-none" crossorigin="anonymous">
         <canvas class="canvas"></canvas>
+        <div>
+          <label for="draw-color-select">Choose draw color:</label>
+          <select class="draw-color-select">
+            <option value="black" selected>Black</option>
+            <option value="white">White</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="orange">Orange</option>
+            <option value="yellow">Yellow</option>
+            <option value="purple">Purple</option>
+          </select>
+        </div>
       </div>
-
 
       <div class="col-6">
         <div class="preset-filters m-2">
