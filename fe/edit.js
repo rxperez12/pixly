@@ -20,6 +20,11 @@ const $saturationSlider = document.querySelector(".saturation-slider");
 const $sepiaSlider = document.querySelector(".sepia-slider");
 const $blurSlider = document.querySelector(".blur-slider");
 
+//GLOBALS FOR DRAWING
+let isPainting = false;
+let lineWidth = 5;
+let startX;
+let startY;
 
 /** Given image url, puts saves image in front end and created canvas for editing */
 function loadImage() {
@@ -131,7 +136,7 @@ function applyFilters() {
     ") saturate(" + $saturationSlider.value + "%" +
     ") sepia(" + $sepiaSlider.value + "%" +
     ") blur(" + $blurSlider.value + "px" +
-    ")"
+    ")";
   console.log("filterString", filterString);
 
   context.filter = filterString;
@@ -152,11 +157,45 @@ $presetFilters.addEventListener("click", (evt) => {
   }
 });
 
+$canvas.addEventListener('mousedown', (evt) => {
+  console.log("painting");
+  isPainting = true;
+  startX = evt.clientX;
+  startY = evt.clientY;
+  const canvasOffsetX = $canvas.offsetLeft;
+  const canvasOffsetY = $canvas.offsetTop;
+  draw(startX, startY, canvasOffsetX, canvasOffsetY);
+});
+
+$canvas.addEventListener('mousemove', (evt) => {
+
+  if (isPainting !== true) return;
+  startX = evt.clientX;
+  startY = evt.clientY;
+  const canvasOffsetX = $canvas.offsetLeft;
+  const canvasOffsetY = $canvas.offsetTop;
+  draw(startX, startY, canvasOffsetX, canvasOffsetY);
+});
+
+$canvas.addEventListener('mouseup', (evt) => {
+  console.log('not painting');
+  isPainting = false;
+});
+
+function draw(x, y, offsetX, offsetY) {
+  context.lineWidth = lineWidth;
+  context.fillStyle = 'black';
+  context.beginPath();
+  context.lineCap = 'round';
+  context.lineTo(x - offsetX, y - offsetY);
+  context.stroke();
+}
 
 /** Starts editing */
 function start() {
   loadImage();
   window.applyFilters = applyFilters;
+
 }
 
 start();
