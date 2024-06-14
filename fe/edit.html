@@ -11,22 +11,26 @@
 </head>
 
 <body>
+  <div class="heading m-4">
+    <h1>Edit Your Picture</h1>
+    <p class="description">Add stylings to the picture!</p>
+  </div>
   <div class="container image-editing-area">
-    <div class="row row-cols-12">
-      <div class="col-6">
-        <h1>Edit Your Picture</h1>
+    <div class="row row-cols-auto g-2">
+      <div class="col-auto">
         <img class="source-image d-none" crossorigin="anonymous">
         <canvas class="canvas"></canvas>
       </div>
 
 
-      <div class="preset-filters col-6 my-5">
-        <h5>Preset Filters</h5>
-        <button class="black-white btn btn-dark">Black and White</button>
-        <button class="sepia btn btn-info">Sepia</button>
-        <button class="reset-image btn btn-warning"> Reset Image</button>
-
-        <div class="image-sliders row my-5">
+      <div class="col-6">
+        <div class="preset-filters m-2">
+          <h5>Preset Filters</h5>
+          <button class="black-white btn btn-dark">Black and White</button>
+          <button class="sepia btn btn-info">Sepia</button>
+          <button class="reset-image btn btn-warning"> Reset Image</button>
+        </div>
+        <div class="image-sliders row m-2 ">
           <h5>Sliders</h5>
           <label for="brightness-slider">Brightness</label>
           <input class="brightness-slider" type="range" value="100" min="0" max="300" oninput="applyFilters()"><br>

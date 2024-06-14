@@ -12,7 +12,7 @@ $imageForm.addEventListener("submit", async function (evt) {
   const $fileInput = document.querySelector("#image");
   const file = $fileInput.files[0];
 
-  if(!file) {
+  if (!file) {
     $fileError.innerHTML = "Please select a file before uploading";
     return;
   }
@@ -40,10 +40,10 @@ async function getAndShowImages() {
   console.log("getAndShowImages");
   const response = await fetch(`${API_URL}/images`);
   const imagesResult = await response.json(); //images: image:{url, key}
-  if(imagesResult.images.length === 0) {
+  if (imagesResult.images.length === 0) {
     $imageList.innerHTML = "No images found, try uploading some!";
   }
-  else{
+  else {
     putImagesOnPage(imagesResult.images);
   }
 }
@@ -67,20 +67,24 @@ function putImagesOnPage(images) {
     // create delete button
     const $deleteButton = document.createElement("button");
     $deleteButton.setAttribute('key', $img.id);
-    $deleteButton.classList.add("btn", "btn-danger", "delete-image-button");
+    $deleteButton.classList.add(
+      "btn",
+      "btn-danger",
+      "delete-image-button",
+      'btn-sm');
     $deleteButton.innerText = "X";
 
     // adding li
-    const $li = document.createElement("li");
-    $li.classList.add('list-group-item');
-    $li.append($anchor, $deleteButton);
-    $imageList.appendChild($li);
+    const $imageDiv = document.createElement("div");
+    $imageDiv.classList.add('list-group-item', 'col', "m-1");
+    $imageDiv.append($anchor, $deleteButton);
+    $imageList.appendChild($imageDiv);
   }
 }
 
 
 /** Listen for click event on image or its' delete button*/
-$imageList.addEventListener("click", function(evt) {
+$imageList.addEventListener("click", function (evt) {
   evt.preventDefault();
   const $clicked = evt.target;
   console.log("$clicked", $clicked);
@@ -95,6 +99,7 @@ $imageList.addEventListener("click", function(evt) {
     deleteImage(imageKey);
   }
 });
+
 
 /** Delete an image by key, reload page */
 async function deleteImage(key) {

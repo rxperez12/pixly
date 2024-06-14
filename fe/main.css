@@ -1,0 +1,16 @@
+/* STYLES FOR IMAGE EDITOR */
+.image {
+  width: 200px;
+  border-radius: 5px;
+}
+
+.image-list {
+  max-width: 80vw;
+}
+
+.list-group-item button {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
