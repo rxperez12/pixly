@@ -42,6 +42,11 @@ TOMORROW LIST
   - Canvas
     - canvas HTML element, blank area.
       - can apply filters, draw lines and shapes, etc.
+      - "tainted canvas" issue
+        - canvas becomes "tainted" when anything loaded into it is from a different origin without CORS approval
+        - cannot retrieve image data, such as a URL for the edited image if canvas is "tainted"
+        - <img> element loaded into canvas: 'crossorigin' attribute should be set to 'anonymous'.
+          - by default images send requests in 'no-cors' mode, which can cause tainted canvas
     - load images onto canvas
     - demo the filter sliders
     - explain canvas context
