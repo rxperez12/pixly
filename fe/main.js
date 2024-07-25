@@ -93,6 +93,7 @@ $imageList.addEventListener("click", function (evt) {
     // add image key and url to localStorage, load edit page
     localStorage.setItem("imageKey", $clicked.id);
     localStorage.setItem("imageURL", $clicked.src);
+    console.log("baseURL", BASE_URL)
     window.location.href = `${BASE_URL}/edit.html`;
   }
   else if ($clicked.matches(".delete-image-button")) {
