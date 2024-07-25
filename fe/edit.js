@@ -1,6 +1,8 @@
+import config from "./config";
 /** FUNCTIONS FOR EDIT HTML */
-const API_URL = "http://localhost:3000";
-const BASE_URL = "http://localhost:5173";
+
+const API_URL = config.API_URL;
+const BASE_URL = config.URL;
 
 // query selectors
 const $canvas = document.querySelector(".canvas");
