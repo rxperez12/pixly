@@ -62,7 +62,7 @@ function putImagesOnPage(images) {
 
     // create anchor element
     const $anchor = document.createElement("a");
-    $anchor.href = `${BASE_URL}/edit.html`;
+    $anchor.href = `/edit.html`;
     $anchor.appendChild($img);
 
     // create delete button
