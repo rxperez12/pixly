@@ -5,6 +5,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
+    "build": "vite build",
     "start": "vite --open",
     "test": "vitest",
     "test:cov": "vitest --coverage"
