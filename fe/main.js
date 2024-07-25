@@ -21,7 +21,6 @@ $imageForm.addEventListener("submit", async function (evt) {
     return;
   }
 
-
   const formData = new FormData();
   formData.append("image", file);
 
@@ -99,6 +98,7 @@ $imageList.addEventListener("click", function (evt) {
     deleteImage(imageKey);
   }
 });
+
 
 
 /** Delete an image by key, reload page */
