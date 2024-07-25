@@ -2,7 +2,7 @@ import config from "./config";
 
 const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
 const API_URL = config.API_URL
-const BASE_URL = config.BASE_URL
+const BASE_URL = config.URL
 const $imageList = document.querySelector(".image-list");
 const $imageForm = document.querySelector(".upload-image-form");
 
