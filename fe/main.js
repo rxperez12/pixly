@@ -2,6 +2,7 @@ import config from "./config";
 
 const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
 const API_URL = config.API_URL
+const BASE_URL = config.BASE_URL
 const $imageList = document.querySelector(".image-list");
 const $imageForm = document.querySelector(".upload-image-form");
 
@@ -92,7 +93,7 @@ $imageList.addEventListener("click", function (evt) {
     // add image key and url to localStorage, load edit page
     localStorage.setItem("imageKey", $clicked.id);
     localStorage.setItem("imageURL", $clicked.src);
-    window.location.href = 'http://localhost:5173/edit.html';
+    window.location.href = `${BASE_URL}/edit.html`;
   }
   else if ($clicked.matches(".delete-image-button")) {
     const imageKey = $clicked.getAttribute('key');
