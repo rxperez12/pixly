@@ -1,6 +1,7 @@
-const API_URL = "http://localhost:3000";
-const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
+import config from "./config";
 
+const FILE_SIZE_LIMIT = 3 * 1024 * 1024;
+const API_URL = config.API_URL
 const $imageList = document.querySelector(".image-list");
 const $imageForm = document.querySelector(".upload-image-form");
 
